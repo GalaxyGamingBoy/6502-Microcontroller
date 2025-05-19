@@ -3,7 +3,9 @@
 | Session | Date                  | Hours Spent |
 | ------- | --------------------- | ----------- |
 | **1**   | May 18, 2025          | 3           |
-|         | **Total Hours Spent** | **3**       |
+| **2**   | May 19, 2025          | 5           |
+|         | **Total Hours Spent** | **8**       |
+
 
 ## Session 1: May 18, 2025 - Beginning
 **_Hours Spent: 3_**
@@ -26,3 +28,36 @@ As for the EEPROM, I'll need to make a cheap EEPROM programmer, that turns out t
 
 > [!IMPORTANT]  
 > The clock speed of the 6502 is To Be Determined at a later date and will be chosen accordingly to make sure the timings on the RAM are sufficient
+
+## Session 2: May 19, 2025 - The start of the Schematic
+**_Hours Spent: 5_**
+
+The main focus on today has mostly been documentation and putting a start on the PCB design. I focused on connecting the 2 fundamental parts of the project, the W65C02, which is the controller, to the W65C22, the Versatile Interface Adapter. Below is how the schematic is currently looking as well as a brief description on each component
+
+![SCH_20250518](https://github.com/user-attachments/assets/ea9628f2-571f-4fdb-91d6-8411d9ea718a)
+
+| Component            | Description                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| W65C02               | The main chip, exposes the R/W pin, Data Bus and Address Bus for the other Components                              |
+| VIA1                 | The first Versatile Interface Adapter for I/O operations. Exposes both ports on the VIA0_P bus                     |
+| Decoupling Caps      | Stabilizes Power Supply Voltage, one cap for each IC                                                               |
+| PWR PINS<br>VIA1 Pin | The header to expose the power to the future PCB                                                                   |
+| PWR TGL              | The toggle switch for the power, defaults to disabled via a pull-down resistor                                     |
+| OSCILLATOR           | Provides a clock signal for the ICs, Frequency is TBD but I'll start with 1MHz                                     |
+| RESET BTN            | Allows for manual operation resets via bridging the ground voltage to the W65C02                                   |
+| I/O Address Matching | Handles the chip select signal for the VIA. Currently the VIA is taking up the whole 0x4000 - 0x8000 memory block. |
+
+The first drafts of the memory map have also been started, here is the current plan
+
+| From   | To     | Usage          |     |
+| ------ | ------ | -------------- | --- |
+| 0x0000 | 0x4000 | RAM[^2]        |     |
+| 0x4000 | 0x8000 | I/O Operations |     |
+| 0x8000 | 0xFFFF | ROM[^3]        |     |
+[^2]: To Be Determined at a later date
+[^3]: Subject to change but most likely will remain the same
+
+> [!NOTE]  
+> The memory map still needs a lot of work but I am for maximum efficiency on both ROM and RAM while keeping costs low.
+
+So far so good, the documentation has been a non issue and is rather well written. The architecture is very simple to which makes it easier to implement than depend on already made solutions. 
