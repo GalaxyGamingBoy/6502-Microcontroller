@@ -49,11 +49,11 @@ The main focus on today has mostly been documentation and putting a start on the
 
 The first drafts of the memory map have also been started, here is the current plan
 
-| From   | To     | Usage          |     |
-| ------ | ------ | -------------- | --- |
-| 0x0000 | 0x4000 | RAM[^2]        |     |
-| 0x4000 | 0x8000 | I/O Operations |     |
-| 0x8000 | 0xFFFF | ROM[^3]        |     |
+| From   | To     | Usage          |
+| ------ | ------ | -------------- |
+| 0x0000 | 0x4000 | RAM[^2]        |
+| 0x4000 | 0x8000 | I/O Operations |
+| 0x8000 | 0xFFFF | ROM[^3]        |
 [^2]: To Be Determined at a later date
 [^3]: Subject to change but most likely will remain the same
 
