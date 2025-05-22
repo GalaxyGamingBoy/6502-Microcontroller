@@ -5,9 +5,8 @@
 | **1**   | May 18, 2025          | 3           |
 | **2**   | May 19, 2025          | 5           |
 | **3**   | May 20, 2025          | 4           |
-|         | **Total Hours Spent** | **12**      |
-
-
+| **4**   | May 21, 2025          | 6           |
+|         | **Total Hours Spent** | **18**      |
 
 ## Session 1: May 18, 2025 - Beginning
 **_Hours Spent: 3_**
@@ -110,3 +109,44 @@ With that in consideration we have landed in this clock chip arrangement
 
 > [!NOTE]
 > This schematic showcases a different memory mapping than the original that was switched on the 4th Session but the idea is the same
+
+## Session 4: May 21, 2025 - Memory Rework, PD, Crystal, IO, ACIA, EEPROM Programmer
+**_Hours Spent: 6_**
+
+Lots of changes today on the schematic, first and foremost I discovered and spend a lot of time reading the [6502 Primer](https://wilsonminesco.com/6502primer/), which has been a massive help.
+
+A lot of time today was spent trying to figure out not intutive and cross checking that the SRAM timings work fine. I also spent a lot of time researching the correct footprints from LCSC that I will need to have in order to begin the design of the PCB module.
+
+The most important change for today is the reworked memory map which priorities RAM space than ROM space. Here is a map of the new memory space:
+
+| From   | To     | Usage |
+| ------ | ------ | ----- |
+| 0x0000 | 0x7FFF | SRAM  |
+| 0x8400 | 0x87FF | ACIA1 |
+| 0x8800 | 0x8FFF | ACIA0 |
+| 0x9000 | 0x9FFF | VIA1  |
+| 0xA000 | 0xBFFF | VIA0  |
+| 0xC000 | 0xFFFF | ROM   |
+
+![6502Microcontroller-MemoryMatching](https://github.com/user-attachments/assets/d1026305-0e8b-4404-b3d2-0270763e7448)
+
+Another thing I wanted to tackle today are the I/O ports and expansion slots, as such I hooked up both the VIA's and ACIA's pins to headers on the board. I also exposed the power pins and interrupt handlers. Last thing to note is the addition of a header of rows that expand a modular interface of the address and data lines of the 6502 for further expansion using flex cables. [^4]
+
+![6502Microcontroller-Connectors](https://github.com/user-attachments/assets/2f69c4ec-c515-42b1-9590-a8189b178e3d)
+
+The board will also contain a EEPROM Programmer controlled by a RPI pico using [picoprom](github.com/gfoot/picoprom?tab=readme-ov-file)
+
+![6502Microcontroller-EEPROM Programmer](https://github.com/user-attachments/assets/3bccf6e8-ed48-4551-a2f5-5b70a78e0b51)
+
+The final board revision will contain 2x VIAs and 2x ACIAs for a lot of I/O opportunities and serial.
+
+> [!info] 
+> A cool feature I will try to implement is on the fly program execution using serial
+
+![6502Microcontroller-IO](https://github.com/user-attachments/assets/b5fef0bb-743d-4e72-83b9-a8dff2bd747e)
+
+Now for the main board design, I've also added a USB-C & DC Barrel Jack power source. For the Interrupts I have exposed a header that using jumper cables one will be able to select where the interrupt gets chosen from. Last thing to note is that the crystal oscillator now exposes a header for override the board oscillator with an external
+
+![6502Microcontroller](https://github.com/user-attachments/assets/5d55f149-d996-4ec2-a4f2-f499ea7c2578)
+
+[^4]: May be removed for speed and PCB implementation reasons, see 6502 primer
