@@ -4,7 +4,9 @@
 | ------- | --------------------- | ----------- |
 | **1**   | May 18, 2025          | 3           |
 | **2**   | May 19, 2025          | 5           |
-|         | **Total Hours Spent** | **8**       |
+| **3**   | May 20, 2025          | 4           |
+|         | **Total Hours Spent** | **12**      |
+
 
 
 ## Session 1: May 18, 2025 - Beginning
@@ -61,3 +63,50 @@ The first drafts of the memory map have also been started, here is the current p
 > The memory map still needs a lot of work but I am for maximum efficiency on both ROM and RAM while keeping costs low.
 
 So far so good, the documentation has been a non issue and is rather well written. The architecture is very simple to which makes it easier to implement than depend on already made solutions. 
+
+## Session 3: May 20, 2025 - EEPROM & SRAM
+**_Hours Spent: 4_**
+
+Today is a pretty light but fundamental day on designing the schematic. This is the first introduction of the SRAM and EEPROM modules, the RAM and ROM of our controller. 
+
+Here is a schematic of how they are connected  
+<img width="466" alt="Screenshot 2025-05-22 at 8 10 17 PM" src="https://github.com/user-attachments/assets/b6f8587e-6c37-4fe2-9fa1-e06b75b759bd" />
+
+
+> [!NOTE]
+> This schematic showcases a different memory mapping than the original that was switched on the 4th Session
+
+The A0-A15 pins are directly connected to the 65C02 address bus while the `DQ0`-`DQ7` and `I/O0`-`I/O7` are connected to the data bus. The important thing to note here are the Chip Select and Chip Enable logic for the SRAM and EEPROM.
+
+### Timings - EEPROM
+The EEPROM I’m using, the AT28C256, has a read access time of 150ns. According to the 65C02 datasheet, the address setup time is 30ns. This means the total minimum delay for a read operation is around 180ns. Additionally, the logic gates involved introduce a worst-case propagation delay of 25ns each, resulting in a total of 50ns delay for the Chip Select signal to propagate through the logic circuitry.
+
+That limits our clock speed to 4,3478MHz at the worst possible outcome
+
+<img width="699" alt="Screenshot 2025-05-22 at 8 15 58 PM" src="https://github.com/user-attachments/assets/58a48617-7c81-4451-9db6-5460c57210ac" />  
+<p style="text-align:center;">  
+Figure: W65C02 timing diagram
+</p>  
+
+> [!warning] 
+> The above times is only a guesstimate, don't take it for granted and I am not going through part of the R/W flow to discuss every delay
+
+### Timings - SRAM
+The SRAM module I'm using, the AS6C6225, has a read/write delay of approximately 55ns. Accounting for logic gate delays at worst environmental factors, which are again ~50ns, we can measure and confirm if our SRAM module is compatible with the controller.
+
+The read part seems to be in line with what we expect, plenty of time for the clock and the read to happen. Now onto the write part, the other crucial part of why we need a RAM module.
+
+Upon closer inspect to the write characteristics and timing cycle diagram we can spot a potential issue.
+<img width="576" alt="Screenshot 2025-05-22 at 8 26 56 PM" src="https://github.com/user-attachments/assets/95f8e9e5-59e9-4a55-b4fa-358a9acd89cb" />  
+<img width="657" alt="Screenshot 2025-05-22 at 8 24 49 PM" src="https://github.com/user-attachments/assets/e7bb2c41-b74f-433f-a4e0-3056bbf56948" />  
+<p style="text-align:center;">
+Figure: AS6C6225 Timing Table
+</p>
+
+The address can be invalidated before the write happens, meaning that there is a chance to write data in an unknown place in RAM and corrupt it. The recommended solution for this according to many forum posts and other designs from 6502.org many choose to tie the SRAM Clock Enable pin to the clock so it only write and stops writing before the address changes, The address hold time in this case is 10ns.
+
+With that in consideration we have landed in this clock chip arrangement
+![6502Microcontroller-MemoryMatching](https://github.com/user-attachments/assets/d1026305-0e8b-4404-b3d2-0270763e7448)
+
+> [!NOTE]
+> This schematic showcases a different memory mapping than the original that was switched on the 4th Session but the idea is the same
