@@ -17,6 +17,7 @@ created_at: "2025-05-18"
 | **6**   | May 23, 2025          | 6           |
 | **7**   | May 24, 2025          | 7           |
 | **8**   | May 25, 2025          | 7           |
+| **9**   | May 26, 2025          | 4           |
 |         | **Total Hours Spent** | **29**      |
 
 ## Session 1: May 18, 2025 - Beginning
@@ -259,3 +260,21 @@ All that considered here is the frame and case drawing
 
 ![Frame Drawing](https://github.com/user-attachments/assets/bf8ada37-8748-4cfe-911a-ee732c3e7e2d)
 ![Case Drawing](https://github.com/user-attachments/assets/c3324439-4977-4683-8e2b-539005ef9083)
+
+## Session 9: May 26 - Schematic Review, Schematic, PCB review and Fixing DRC issues
+**_Hours Spent: 4_**
+Woah, new session! It will mostly be spent on cleanup of the schematics and cad[^5]
+[^5]: And new CAD part :)
+
+While analyzing the schematic I realized I never added the voltage step down from 12V to 5V, that could have been bad... Well here it is:
+
+<img width="233" alt="Screenshot 2025-05-28 at 7 21 13 PM" src="https://github.com/user-attachments/assets/265fc03b-8821-4e7e-9d22-9af783ca0ad1" />
+
+
+I had to design my own symbol for it but that wasn't that bad, KiCad is really nice with working on actually. 
+
+For the PCB I noticed that some components were misaligned so I aligned them and added some symbols and footprints with information like the memory layout of the board. Neat!
+
+As for the CAD I added a new extension board for the frame, it has a place for a motherboard for easy access and provides a stable surface to work and carry. Onshape is exceeding my expectations really quickly, it really is an amazing tool to use
+
+![Microcontroller Holder Drawing 6502-1](https://github.com/user-attachments/assets/fb13a1ff-5afe-40ee-9182-8cb7ce6535ce)
