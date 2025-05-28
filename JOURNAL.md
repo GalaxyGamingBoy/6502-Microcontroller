@@ -18,6 +18,7 @@ created_at: "2025-05-18"
 | **7**   | May 24, 2025          | 7           |
 | **8**   | May 25, 2025          | 7           |
 | **9**   | May 26, 2025          | 4           |
+| **10**  | May 27, 2025          | 4           |
 |         | **Total Hours Spent** | **29**      |
 
 ## Session 1: May 18, 2025 - Beginning
@@ -263,6 +264,7 @@ All that considered here is the frame and case drawing
 
 ## Session 9: May 26 - Schematic Review, Schematic, PCB review and Fixing DRC issues
 **_Hours Spent: 4_**
+
 Woah, new session! It will mostly be spent on cleanup of the schematics and cad[^5]
 [^5]: And new CAD part :)
 
@@ -278,3 +280,19 @@ For the PCB I noticed that some components were misaligned so I aligned them and
 As for the CAD I added a new extension board for the frame, it has a place for a motherboard for easy access and provides a stable surface to work and carry. Onshape is exceeding my expectations really quickly, it really is an amazing tool to use
 
 ![Microcontroller Holder Drawing 6502-1](https://github.com/user-attachments/assets/fb13a1ff-5afe-40ee-9182-8cb7ce6535ce)
+
+Session 10: May 27 - LCSC Part Review, fiting in PCB, Footprints and BOM
+**_Hours Spent: 4_**
+
+After reviewing the footprints I realized I made a glaring issue with the built-in footprints. I turns out LCSC has the footprints in a 90 degree offset, leading to them being wrong in the PCB construction. To fix that I will again manually change update the footprint one part of the time, align it back to the proper place and fix the 10+ DRC violations due to track collisions or tracks being connected accidentally.
+
+The same issue happened with the Pin Header, here is the JLCPCB part assembly preview to visualize the problem better
+
+<img width="661" alt="Screenshot 2025-05-28 at 7 43 13 PM" src="https://github.com/user-attachments/assets/b07ec4cb-604c-46dd-b25c-2e6f99966024" />
+
+I also found a solution to the crystal that I needed and LCSC didn't stock. I found a matching through hole crystal in mouser that I can manually solder by myself. For that I moved the pads to the back left edge of the board so I can't risk any of the more critical components being damaged. To avoid further PCB damage too I will add kaptop tape to the areas at risk 
+
+Last things for this session I added more informative silkscreen on the board and checked the clearance one more time.
+
+![Kicad 3D 1](https://github.com/user-attachments/assets/008e60fa-06ff-4120-8f70-d3c9b1ee2df9)
+![Kicad 3D 2](https://github.com/user-attachments/assets/9fa7b3cd-59a7-497e-a2aa-95ba25aee47b)
