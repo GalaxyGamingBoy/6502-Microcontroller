@@ -6,7 +6,8 @@
 | **2**   | May 19, 2025          | 5           |
 | **3**   | May 20, 2025          | 4           |
 | **4**   | May 21, 2025          | 6           |
-|         | **Total Hours Spent** | **18**      |
+| **5**   | May 22, 2025          | 5           |
+|         | **Total Hours Spent** | **23**      |
 
 ## Session 1: May 18, 2025 - Beginning
 **_Hours Spent: 3_**
@@ -150,3 +151,25 @@ Now for the main board design, I've also added a USB-C & DC Barrel Jack power so
 ![6502Microcontroller](https://github.com/user-attachments/assets/5d55f149-d996-4ec2-a4f2-f499ea7c2578)
 
 [^4]: May be removed for speed and PCB implementation reasons, see 6502 primer
+
+## Session 5: May 22, 2025 - Schematic Polishing, Decoupling Capacitors
+**_Hours Spent: 5_**
+
+Today was a lot of important progress on polishing the kicad schematics and adding all the needed capacitors as well as a voltage step down converter for the DC Barrel Jack.
+
+Before this moment I haven't checked the Electric Rule Checker at all, and after I did I was in for a shock. At least 100+ violations of `Bus graphically connected but is not a member of that bus`. Hmm that was a bit suspicious, last time I used KiCad buses I never got that error
+
+After a bit of investigation work, [this](https://forum.kicad.info/t/solved-bus-graphically-connected-but-is-not-a-member-of-that-bus/39761/2) forum post clued me in to what was happening. Since the last time I used KiCad buses was a while ago on an older version for platform control the buses on the newer kicad version were updated. After painstakingly rerouting all of the schematic wire I was still getting bus violations, but to duplicate entries?
+
+After a lot of head scratching the issue was my bus alias definitions, it turns out the nested bus names also act as local/global variables to the schematic. Oops...
+
+<img width="1582" alt="KiCad Bus Alias" src="https://github.com/user-attachments/assets/a34dacaf-2d8e-461a-b191-82e2d099676a" />
+
+
+I've also spend some time today on assigning proper footprints and getting the necessary LCSC footprint parts to every component, that process was very time consuming because I had to export every easyeda part by hand. Thankfully, or not, I decided to use the included DIP Socket footprints of KiCad thinking that they were going to work okay.
+
+<img width="1547" alt="KiCad Footprints" src="https://github.com/user-attachments/assets/1caf1cd3-a6d3-4f3f-9e83-b80886a6849e" />
+
+
+> [!NOTE]
+> The screenshot was taken after the fact because I accidentally deleted the original one, woops
