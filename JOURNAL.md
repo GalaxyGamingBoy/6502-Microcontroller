@@ -19,7 +19,8 @@ created_at: "2025-05-18"
 | **8**   | May 25, 2025          | 7           |
 | **9**   | May 26, 2025          | 4           |
 | **10**  | May 27, 2025          | 4           |
-|         | **Total Hours Spent** | **29**      |
+| **11**  | May 28, 2025          | 2           |
+|         | **Total Hours Spent** | **53**      |
 
 ## Session 1: May 18, 2025 - Beginning
 **_Hours Spent: 3_**
@@ -296,3 +297,59 @@ Last things for this session I added more informative silkscreen on the board an
 
 ![Kicad 3D 1](https://github.com/user-attachments/assets/008e60fa-06ff-4120-8f70-d3c9b1ee2df9)
 ![Kicad 3D 2](https://github.com/user-attachments/assets/9fa7b3cd-59a7-497e-a2aa-95ba25aee47b)
+
+## Session 11: May 28 - CA65, Project Template, Build System
+**_Hours Spent: 2_**
+
+I'm really happy with the progress of the project so far, today I did more code stuff by doing a sample project that can be compiled and used on the board so I can do testing when I have the actual boards. Here is how I have the code project setup so far
+
+```
+.
+├── Makefile   # Used to configure the building
+├── gpmc.cfg   # The CA65 linker file to declare segments
+├── gpmc.inc   # Helper include which contains the I/O mappings
+├── src        
+│   └── main.s # The main program
+├── startup.s  # Contains the startup logic
+└── vectors.s  # Adds the code vectors to the ROM
+```
+
+Configuring CA65 was not that hard, making the Makefile took more time. Here is the linker script I decided to end up with the following configuration and segments (explanation below)
+
+```txt
+MEMORY {
+    ZP:        start =    $0, size =  $100, type   = rw, define = yes;
+    RAM:       start =  $200, size = $7E00, define = yes;
+    ROM:       start = $C000, size = $4000, type   = ro, file   = %O;
+}
+
+SEGMENTS {
+    ZEROPAGE: load = ZP,  type = zp,  define   = yes;
+    BSS:      load = RAM, type = bss, define   = yes;
+    STARTUP:  load = ROM, type = ro;
+    CODE:     load = ROM, type = ro;
+    RODATA:   load = ROM, type = ro;
+    VECTORS:  load = ROM, type = ro,  start    = $FFFA;
+}
+
+[...]
+```
+
+| Segment  | Usage                      |
+| -------- | -------------------------- |
+| ZEROPAGE | Fast access RAM            |
+| BSS      | Normal Work RAM            |
+| STARTUP  | Contains startup logic     |
+| CODE     | Well, the code             |
+| RODATA   | Read Only Data, ie strings |
+| VECTORS  | Vectors in memory, ie IRQ  |
+As for the makefile I ended up with the following commands
++ `make all` - Builds the main ROM file
++ `make clean` - Cleans the directory of build artifacts
+
+The most interesting part of the `Makefile` to point out would be the creation of the actual binary file due to the way we have setup our memory config. Currently ROM gets enabled when both A15 and A14 bits get triggered, that means our sequence always starts with `11(...)`
+
+However the EEPROM takes in A0-A14 bits, meaning our memory locations are always with an offset of `0x4000` in hex or `16384` in decimal. That we must prepend `16384` bytes to the flash file before we can use, else we will read invalid addresses. Thus this gives us the following command:
+```sh
+	dd if=/dev/zero bs=16384 count=1 2>/dev/null | cat - $(name).out > $(name).bin
+```
