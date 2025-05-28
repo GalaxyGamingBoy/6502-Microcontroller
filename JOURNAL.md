@@ -16,6 +16,7 @@ created_at: "2025-05-18"
 | **5**   | May 22, 2025          | 5           |
 | **6**   | May 23, 2025          | 6           |
 | **7**   | May 24, 2025          | 7           |
+| **8**   | May 25, 2025          | 7           |
 |         | **Total Hours Spent** | **29**      |
 
 ## Session 1: May 18, 2025 - Beginning
@@ -232,3 +233,29 @@ I chose this layer setup to provide the optimal chance to minimize crosstalk and
 Routing everything was going really well until I had to connect the IC8 and IC6 parts, in this case the ACIA ICs, that was when everything started to be a lot harder. I had to use a few more via's than I would like but in the end everything was connected and that's what mattered. I tried to keep clear of possible points of cross talk and nearly the same amount of vias to every IC chip to minimize longer paths with more resistances. Other than that here is the design I nailed down.
 
 ![PCB R3](https://github.com/user-attachments/assets/71372f29-883f-4c79-a790-cd750853219e)
+
+Session 8: May 25, 2025 - CAD
+**_Hours Spent: 7_**
+
+Ultimately I was quite happy with how the PCB turned out, even tho everything is a tight fit. That means the next step for the project is the CAD, I also wanted to take a break from PCB design, considering I stayed up quite late so I could finish it 
+
+For the CAD I have 2 choices of software to use
+1. FreeCAD
+2. Onshape
+
+However considering the convenience of Onshape being all online, I decided to choose that over FreeCad.
+
+After a lot of brainstorming both on paper and draw.io I came up for the following parts that I would like the CAD project to have.
+
+1. PCB Frame, holds the PCB in place and prevents accidental contact with the PCB layers to prevent scratching and other surface damage
+2. Case, Covers the frame to prevent the ICs from being handled incorrectly and prevents the potential of ESD Damage
+
+> [!warning] 
+> CMOS chips like the W65C02 are very sensitive to ESD damage so we need to be very caution with the handling of the chips
+
+I decided to do the PCB frame larger than needed and add a seperate 3D printed part as a filler so I can sand it down if the clearance got too tight
+
+All that considered here is the frame and case drawing
+
+![Frame Drawing](https://github.com/user-attachments/assets/bf8ada37-8748-4cfe-911a-ee732c3e7e2d)
+![Case Drawing](https://github.com/user-attachments/assets/c3324439-4977-4683-8e2b-539005ef9083)
