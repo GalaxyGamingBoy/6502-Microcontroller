@@ -15,6 +15,7 @@ created_at: "2025-05-18"
 | **4**   | May 21, 2025          | 6           |
 | **5**   | May 22, 2025          | 5           |
 | **6**   | May 23, 2025          | 6           |
+| **7**   | May 24, 2025          | 7           |
 |         | **Total Hours Spent** | **29**      |
 
 ## Session 1: May 18, 2025 - Beginning
@@ -215,3 +216,19 @@ That seems much better but it still has some bends, angles and via's that I woul
 Although I still continued to route as much as I was able to put down.
 
 Halfway through I realized that the crystal oscillator that I used for the W65C02 was not available at the size and frequency that I want but I left that for the next session to figure out.
+
+## Session 7: May 24, 2025 - 3rd PCB Revision
+**_Hours Spent: 7_**
+
+Today I redid the PCB again, I was not ultimately that happy with the distance between the chips and chose to redo the design of he board again. This time with 4 layers and them being stacked like this:
+
+1. Top Layer (Signals)
+2. In1 Copper Layer - Ground Plane (GND)
+3. In2 Copper Layer - Power Plane (+5V)
+4. Bottom Layer (Signals)
+
+I chose this layer setup to provide the optimal chance to minimize crosstalk and provide the most optimal routing.  
+
+Routing everything was going really well until I had to connect the IC8 and IC6 parts, in this case the ACIA ICs, that was when everything started to be a lot harder. I had to use a few more via's than I would like but in the end everything was connected and that's what mattered. I tried to keep clear of possible points of cross talk and nearly the same amount of vias to every IC chip to minimize longer paths with more resistances. Other than that here is the design I nailed down.
+
+![PCB R3](https://github.com/user-attachments/assets/71372f29-883f-4c79-a790-cd750853219e)
