@@ -1,3 +1,10 @@
+---
+title: "6502 General Purpose Microcontroller"
+author: "Marios Mitsios"
+description: "A arduino like board powered by the W65C02 chip!"
+created_at: "2025-05-18"
+---
+
 # Journal
 
 | Session | Date                  | Hours Spent |
@@ -119,7 +126,16 @@ Lots of changes today on the schematic, first and foremost I discovered and spen
 
 A lot of time today was spent trying to figure out not intutive and cross checking that the SRAM timings work fine. I also spent a lot of time researching the correct footprints from LCSC that I will need to have in order to begin the design of the PCB module.
 
-The most important change for today is the reworked memory map which priorities RAM space than ROM space. Here is a map of the new memory space:
+The most important change for today is the reworked memory map which priorities RAM space than ROM space. As such after a lot of research and brainstorming the most optimal ways to get the best of both worlds I had 3 viable solutions.
+
+- Use a multiplexer IC
+- Use a 6502 ready address IC
+- Make a custom combination by arranging the logic gates in different ways
+
+Avoiding cost and wanting to do it myself I opted for the 3rd option and switched the logic gates in a way so we have more ram and less rom, as I view wram being more important especially when comparated to the relative efficient assembly rom that will be put.
+
+
+Here is a map of the new memory space:
 
 | From   | To     | Usage |
 | ------ | ------ | ----- |
@@ -129,6 +145,10 @@ The most important change for today is the reworked memory map which priorities 
 | 0x9000 | 0x9FFF | VIA1  |
 | 0xA000 | 0xBFFF | VIA0  |
 | 0xC000 | 0xFFFF | ROM   |
+
+And the specs:
++ 16 KiB of ROM
++ 32 KiB of RAM
 
 ![6502Microcontroller-MemoryMatching](https://github.com/user-attachments/assets/d1026305-0e8b-4404-b3d2-0270763e7448)
 
