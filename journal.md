@@ -7,7 +7,8 @@
 | **3**   | May 20, 2025          | 4           |
 | **4**   | May 21, 2025          | 6           |
 | **5**   | May 22, 2025          | 5           |
-|         | **Total Hours Spent** | **23**      |
+| **6**   | May 23, 2025          | 6           |
+|         | **Total Hours Spent** | **29**      |
 
 ## Session 1: May 18, 2025 - Beginning
 **_Hours Spent: 3_**
@@ -146,7 +147,7 @@ The final board revision will contain 2x VIAs and 2x ACIAs for a lot of I/O oppo
 
 ![6502Microcontroller-IO](https://github.com/user-attachments/assets/b5fef0bb-743d-4e72-83b9-a8dff2bd747e)
 
-Now for the main board design, I've also added a USB-C & DC Barrel Jack power source. For the Interrupts I have exposed a header that using jumper cables one will be able to select where the interrupt gets chosen from. Last thing to note is that the crystal oscillator now exposes a header for override the board oscillator with an external
+Now for the main board design, I've also added a USB-C & DC Barrel Jack power source. For the Interrupts I have exposed a header that using jumper cables one will be able to select where the interrupt gets chosen from. Last thing to note is that the crystal oscillator now exposes a header for override the board oscillator with an external oscillator if needed, controlled via the tristate pin
 
 ![6502Microcontroller](https://github.com/user-attachments/assets/5d55f149-d996-4ec2-a4f2-f499ea7c2578)
 
@@ -170,6 +171,27 @@ I've also spend some time today on assigning proper footprints and getting the n
 
 <img width="1547" alt="KiCad Footprints" src="https://github.com/user-attachments/assets/1caf1cd3-a6d3-4f3f-9e83-b80886a6849e" />
 
+![6502Microcontroller-IO 1](https://github.com/user-attachments/assets/7ba47824-eb5d-498c-aba5-d689edb27be5)
+
 
 > [!NOTE]
 > The screenshot was taken after the fact because I accidentally deleted the original one, woops
+
+## Session 6: May 23, 2025 - First PCB Draft Revision, Fail?
+**_Hours Spent: 6_**
+
+Today I started routing the first PCB routing draft, I started of with 2 layers, one signal and the other primarily a ground plane. I capped myself the PCB at `100mm x 100mm`.
+
+Upon loading all the components I noticed that a lot of them take much more space than originally realized and that I will have to make them a snug fit, but leaving that worry to future me. Firstly I started wiring the ROM chip to the W65C02 while making sure the 4MHz crystal oscillator was close enough. 
+
+![PCB](https://github.com/user-attachments/assets/7ffde01d-48e4-4aed-b64e-ce7dfb6f186f)
+
+Hm, that doesn't look quite right, I was leaving space in the middle for all the data pins and GPIO signals that work so they don't crosstalk that much. Quickly I realized the waste of space orienting the ICs like that would have on the board and I decided to opt for another design that preserves much more space and makes the address and data pins have similar widths to prevent incorrect memory access later, or reach race conditions
+
+![PCB](https://github.com/user-attachments/assets/9290d04b-4e4f-4acf-90c1-b4abafde45ff)
+
+That seems much better but it still has some bends, angles and via's that I would like to avoid. The usage of via's in the middle in the start like that also provide worst problems later down when I try to connect everything and squeeze as much space I can get out of this thing.
+
+Although I still continued to route as much as I was able to put down.
+
+Halfway through I realized that the crystal oscillator that I used for the W65C02 was not available at the size and frequency that I want but I left that for the next session to figure out.
