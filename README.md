@@ -1,6 +1,9 @@
 # General Purpose 6502 Microcontroller
 
-This is about a general purpose microcontroller, like the arduino, but using the 65C02 chip
+This is about a general purpose microcontroller, like the arduino, but using the 65C02 IC. The 6502 powered microcontroller unit that has 32KiB of RAM and 16KiB of storage and runs with 4MHz.
+
+## Why?
+Ever wanted to use the Apple I or NES like an Arduino? The one thing in common with both of these platforms is the 8-bit processor known as the 6502 or it’s modern cousin the W65C02S. I was always fascinated by the multiple features it has even as such an old microprocessor. Thus I decided to build my own 6502 powered microcontroller that is inspired by this
 
 ## Features
 
@@ -11,7 +14,7 @@ This is about a general purpose microcontroller, like the arduino, but using the
 
 _Want to see the progress and the making of the project? Check [journal.md]_
 
-## Bill of Materials (BOM)
+## Bill of Materials (BOM) for 2 Units
 BOM is available [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vSp7wmMJoBrFsNmcZfdQle1DgGpygNZzK69nfCzy5W3IegrDRIj2T4DXEuusGqE_R13mvxW_oDpiJff/pubhtml?gid=0&single=true)
 
 ## CAD
