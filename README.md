@@ -27,3 +27,12 @@ The Schematic and PCB is available in the 6502-Microcontroller-Kicad folder in t
 
 ![image](https://github.com/user-attachments/assets/c7d117e9-a89a-4248-a3b2-7378e12661e8)
 ![6502 GPMC Case](https://github.com/user-attachments/assets/3533e070-2ea0-4ffe-9ed2-0b4e10293507)
+
+## Code
+On the root directory of this repository there is a `sample_project/` directory with all the starting files you need to assemble code for this microcontroller.  
+
+### Steps
+1. Install CC65
+2. Run `make` in project directory
+3. Flash `.bin` file to EEPROM
+4. Done!
