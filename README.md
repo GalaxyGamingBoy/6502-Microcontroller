@@ -1,6 +1,6 @@
 # General Purpose 6502 Microcontroller
 
-This is about a general purpose microcontroller, like the arduino, but using the 65C02 IC. The 6502 powered microcontroller unit that has 32KiB of RAM and 16KiB of storage and runs with 4MHz.
+The 6502-Based Microcontroller is a custom-built, general-purpose development board powered by the 8-bit W65C02S processor, offering a retro yet powerful platform for exploring low-level computing. Featuring 32 KiB of RAM, 16 KiB of EEPROM storage, 32 GPIO pins, dual serial interfaces, and a 4 MHz adjustable clock, brings hardware of the Apple I era to run on an on par level to an Arduino Uno. This project is designed with attention to compatibility and serves as an education platform in interacting and understanding low-level protocols, like I2C or SPI, and embedded systems with hands-on hardware, minimizing abstractions.
 
 ## Why?
 Ever wanted to use the Apple I or NES like an Arduino? The one thing in common with both of these platforms is the 8-bit processor known as the 6502 or it’s modern cousin the W65C02S. I was always fascinated by the multiple features it has even as such an old microprocessor. Thus I decided to build my own 6502 powered microcontroller that is inspired by this
