@@ -49,8 +49,7 @@ As for the EEPROM, I'll need to make a cheap EEPROM programmer, that turns out t
 
 The main focus on today has mostly been documentation and putting a start on the PCB design. I focused on connecting the 2 fundamental parts of the project, the W65C02, which is the controller, to the W65C22, the Versatile Interface Adapter. Below is how the schematic is currently looking as well as a brief description on each component
 
-![SCH_20250518](https://github.com/user-attachments/assets/ea9628f2-571f-4fdb-91d6-8411d9ea718a)
-
+![Journal Image 1](https://raw.githubusercontent.com/GalaxyGamingBoy/6502-Microcontroller/refs/heads/main/imgs/journal/j-1.svg)
 | Component            | Description                                                                                                        |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | W65C02               | The main chip, exposes the R/W pin, Data Bus and Address Bus for the other Components                              |
