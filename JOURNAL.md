@@ -20,7 +20,17 @@ created_at: "2025-05-18"
 | **9**   | May 26, 2025          | 4           |
 | **10**  | May 27, 2025          | 4           |
 | **11**  | May 28, 2025          | 2           |
-|         | **Total Hours Spent** | **53**      |
+| **12**  | Jun 20, 2025          | 3           |
+| **13**  | Jul 01, 2025          | 4           |
+| **14**  | Jul 03, 2025          | 6           |
+| **15**  | Jul 04, 2025          | 3           |
+| **16**  | Jul 05, 2025          | 4           |
+| **17**  | Jul 10, 2025          | 2           |
+| **18**  | Aug 06, 2025          | 1           |
+|         | **Total Hours Planning** | **53**      |
+|         | **Total Hours Assemblying** | **23**      |
+|         | **Total Hours Spent** | **76**      |
+
 
 ## Session 1: May 18, 2025 - Beginning
 **_Hours Spent: 3_**
@@ -352,3 +362,86 @@ However the EEPROM takes in A0-A14 bits, meaning our memory locations are always
 ```sh
 	dd if=/dev/zero bs=16384 count=1 2>/dev/null | cat - $(name).out > $(name).bin
 ```
+## Session 12: June 20 - First Parts, ROM
+**_Hours Spent: 3_**
+
+Woah! It's been a while. In the meantime I have been working on the HEV Unit, but now the Mouser parts are here, so let's get unboxing. After going over to the post office and picking up the package, I found a bag with all of the parts inside, sealed away from humidity and potential ESD damage.
+
+Now that we have the ROM chip, it's time to build the flasher. For this I will be using a spare Pico H I have laying around with [**picoprom**](https://github.com/gfoot/picoprom?tab=readme-ov-file). From the Pico I have cables extensions attached in a breadboard with the specified pinout.
+
+Connecting everything was more tedious than originally imagined but it is what it is. The next step is building the firmware since I didn't have the .uf2 on hand. To do this I first setup the pico-sdk with the manual environment configuration. After cloning everything, it's time to build the pico examples to see if everything was working correctly. Turns out, it wasn't, I installed a deprecated brew arm compiler by mistake, woops, now it works!
+
+Before attaching the ROM chip I want to take care of the cables that are hanging around and about. To do this I first plan to insulate the ends so they don't chance by mistake and tape them so they don't move. 
+
+## Session 13: July 1 - PCB Disaster
+**_Hours Spent: 4_**
+
+Welp I picked up the PCB, it looks very good but only after starting to look closer I realized a mistake that I made between conversion rates and LCSC. Turns out DIP-28 socket have a sibling of sorts, DIP-28 Wide that LCSC doesn't really market so as my naive self I decided to go with the DIP-28, as that is what all the other documentation said "DIP-28" not "DIP-28 Wide". 
+
+That means a bunch of components now don't fit, but after scarfing a bit, I think I can fix it. With a bit of soldering and wire I can fix everything. Well the ROM will be the hardest part, see it is very stuck and I can't solder it down as it will move, so I will go with a ZIF socket instead, adding a QOL feature as well.
+
+<img width="588" height="427" alt="Screenshot 2025-08-07 at 1 45 41 PM" src="https://github.com/user-attachments/assets/011f5317-5c72-49a8-9c46-3f938be1d42b" />
+
+## Session 14: July 3 - Attempt at fixing
+**_Hours Spent: 6_**
+
+Woah, that was fast, parts arrived. After I sat down and looked at everything I realized what a grueling task this was going to be. So, I started by preparing my workspace and getting the wire wrap ready. 
+
+First I attached the ZIF socket and took a quick look. Yikes that is a lot of space and soldering.
+So with a playlist, podcasts and a lot of free time at hand I started to solder every. single. wire. I tried my best to mount everything with appropriate supports and even had a angle bracelet and an ESD safe workspace to remove any dangers.
+
+After all that soldering I was too tired to actually test it, so is for tomorrow.
+
+![PXL_20250807_083240882](https://github.com/user-attachments/assets/43a58776-306f-4fbb-a2c6-4dca0f0b31fd)
+
+## Session 15: July 4 - Debugging Hell
+**_Hours Spent: 3_**
+
+New day! Nerve wracking...
+After a quick inspection I found and fixed some cold joints. After that I tried to setup my flashing setup correctly. For that had to setup the SDK and Build the UF2, but after that process everything should be working.
+
+Of course it isn't, why would XMODEM work without problems, after debugging that I ended up just using another program specifically for XMODEM and it finally worked, now let's upload.
+
+Great! Upload complete and verified without problems, now let's put it on the board and-.
+Oh, oh no, the led is turning on, so that's good but it seems stuck? It was supposed to be blinking. Very sporadic behaviour, sometimes it doesn't even turn on. (You can see my confused expression when talking to acon about it)
+
+I went on and rewrote the program with different assemblers and no dice, sigh :(
+
+Yes, even a lot of nop's didn't work, it's not a SRAM issue.
+
+<img width="1582" height="966" alt="Screenshot 2025-08-07 at 1 40 41 PM" src="https://github.com/user-attachments/assets/68349694-f45d-4262-aaa1-aa0c0ef5f598" />
+
+<img width="3164" height="1934" alt="Pasted image 20250807134142" src="https://github.com/user-attachments/assets/9551fd1c-33cc-406e-ac59-8347cd30dce8" />
+
+
+## Session 16: July 5 - Debugging Hell, Pt 2
+**_Hours Spent: 4
+
+Sigh, let's continue from where we left off, this time with a fancy new tool, the digital analyzer, didn't think I would need this, but hey. Turning the board on and expecting for the led to light, and... it doesn't work anymore? why? what changed?
+
+My first clue was that LCSC had sent me some bad crystals, after hooking up the logic analyzer i was seeing no output from it? that was weird, I even cross checked with the datasheet and no luck, sigh. To combat that I hooked up another lower freq crystal I had lying around, and hooray the crystal signal is clean again, everything should be working!
+
+Nope, I spoke too soon, something is broken again. Why :c 
+I tried to trace if every wire is connected again and even run a multimeter test for continuity and everything seems to be connected. I truly am baffled, what happened?! I reviewed my schematic again and everything seems to be in order, weird... This is so confusing. I hooked up my logic analyzer to the address pins and to my surprise it was doing stuff, not sure why it's not working tho. The logic gates seem to be responding as well.
+
+I truly can't find what's going on. 
+
+![PXL_20250807_083246797](https://github.com/user-attachments/assets/6daf5947-90fe-46a8-a675-20d40718b9cf)
+
+
+## Session 17: July 10 - Review
+**_Hours Spent: 2_**
+
+After leaving the project on the backburner while I was busy with studying, I eventually returned. Now after powering it on, it worked? sometimes. I can't replicate it everytime, it's very rare and inconsistent. My wiring again seems okay but maybe something disconnected or is not making good enough contact? The multimeter says everything is okay, this truly is baffling me. :/
+
+![PXL_20250807_083232681](https://github.com/user-attachments/assets/a31f1596-56a6-4028-80e9-cf694f585bc9)
+
+
+## Session 18: Aug 6 - Demo
+**_Hours Spent: 1_**
+
+After taking the project to make the demo, great, it stopped working altogether, not even sometimes anymore, it just isn't working how it's supposed to and I have no clue why. I truly am baffled. I tried my best after soldering and resoldering and reviewing schematics to make this work like it's supposed to but no dice. 
+
+I didn't have a 3D printer on hand, neither did my friends, so I couldn't print and by the time I realized that alternative options were available it was a bit late.
+
+I'm sorry it didn't come out like I expected it, I had high hopes that this idea would work, but here we are.
