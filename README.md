@@ -28,6 +28,11 @@ The Schematic and PCB is available in the 6502-Microcontroller-Kicad folder in t
 ![image](https://github.com/user-attachments/assets/c7d117e9-a89a-4248-a3b2-7378e12661e8)
 ![6502 GPMC Case](https://github.com/user-attachments/assets/3533e070-2ea0-4ffe-9ed2-0b4e10293507)
 
+## Built Project
+[Demo](https://youtube.com/shorts/Y_13o0cas2s?feature=share)
+![PXL_20250807_083231953](https://github.com/user-attachments/assets/ab74e5df-47aa-4b75-8c8d-f933363cd758)
+![PXL_20250807_083257032](https://github.com/user-attachments/assets/ed77b65c-c89a-4f2d-9fe1-4c1552602077)
+
 ## Code
 On the root directory of this repository there is a `sample_project/` directory with all the starting files you need to assemble code for this microcontroller.  
 
